@@ -12,11 +12,15 @@ Gem::Specification.new do |s|
     "README.markdown"
   ]
   s.files = [
-    "MIT-LICENSE",
+    ".gitignore",
+     "MIT-LICENSE",
      "README.markdown",
      "RakeFile",
      "VERSION",
+     "lib/intercepts/net_http.rb",
      "lib/middleman.rb",
+     "lib/store/file.rb",
+     "middleman.gemspec",
      "spec/middleman_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
@@ -26,7 +30,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{TODO}
+  s.summary = %q{simple logging/caching proxy for Net::HTTP}
   s.test_files = [
     "spec/middleman_spec.rb",
      "spec/spec_helper.rb"
