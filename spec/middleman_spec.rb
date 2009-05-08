@@ -32,7 +32,7 @@ describe Middleman do
     end    
         
     it "should " do
-      do_get
+      pp do_get
     end
       
   end
