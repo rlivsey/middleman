@@ -7,7 +7,7 @@ module Middleman
   @options = {
     :verbose    => false,       # don't output any info
     :logger     => nil,         # defaults to STDOUT
-    :store      => Middleman::Store::File.new('cache/mman')
+    :store      => {}
   }
   
   class << self
@@ -15,6 +15,10 @@ module Middleman
     
     def store
       @options[:store]
+    end
+    
+    def logger
+      @options[:logger]
     end
     
   end  

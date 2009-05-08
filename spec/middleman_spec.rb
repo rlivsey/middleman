@@ -1,6 +1,22 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
+
+describe Middleman::Store::File do
+  
+  it "should create the cache dir if it doesn't exist" do
+    FileUtils.rm_rf('cache')
+    File.exist?('cache').should == false
+    @store = Middleman::Store::File.new('cache')    
+    File.exist?('cache').should == true
+  end
+  
+end
+
 describe Middleman do
+  
+  def do_get
+    Twitter::Search.new('bacon')
+  end
   
   describe "with default options" do
     
@@ -8,12 +24,8 @@ describe Middleman do
       Middleman.options[:verbose].should == false
     end
     
-    it "should use a Middleman::Store::File" do
-      Middleman.options[:store].class.should == Middleman::Store::File      
-    end
-    
-    it "should use cache/mman for the cache directory" do
-      Middleman.store.path.should == 'cache/mman'      
+    it "defaults to a hash store" do
+      Middleman.options[:store].class.should == Hash
     end
     
     it "should not have a logger set" do
@@ -24,19 +36,10 @@ describe Middleman do
   
   describe "with file store" do
     
-    it "should create the cache_dir if it doesn't exist" do
-    end
-    
-    describe "changing the cache_dir" do
-      before :all do
-        Middleman.options[:store_dir] = 'other_place/'
-      end      
-      
-      it "should save cache to the changed directory" do
-      end
-      
-    end
-    
+    before :all do
+      Middleman.options[:store] = Middleman::Store::File.new('cache')
+    end    
+        
   end
   
   describe "with no store" do
