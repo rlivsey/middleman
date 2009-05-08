@@ -28,11 +28,7 @@ Output information to the console
 Change the store used for the cache, see the 'stores' section below for more information,
 but it's basically an object which acts like a Hash
 
-    Middleman.options[:cache] = {}
-    
-Change the directory where the Middleman::Store saves the cached files
-
-    Middleman.options[:cache_dir] = '/tmp/middleman_cache/'
+    Middleman.options[:store] = {}
     
 Change where verbose output is sent, by default it's STDOUT
 
@@ -41,10 +37,10 @@ Change where verbose output is sent, by default it's STDOUT
     
 ## Stores
     
-By default Middleman uses Middleman::Store to cache the requests to files in a directory.
+By default Middleman uses Middleman::Store::File to cache the requests to files in a directory.
 The file names are MD5 hashes of the request details.
 
-The interface to Middleman::Store is basically a Hash, so any object which responds to [], []= and 
+The interface to Middleman::Store::File is basically a Hash, so any object which responds to [], []= and 
 is enumerable can be used as a store. 
 
 Using a Hash for the store will work fine, but will not persist across runs of your application.    
