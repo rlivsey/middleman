@@ -25,10 +25,16 @@ describe Middleman do
   
   describe "with file store" do
     
-    before :all do
-      Middleman.options[:store] = Middleman::Store::File.new('cache')
+    before :each do
+      @store = Middleman::Store::File.new('cache/mman')
+      @store.clear
+      Middleman.options[:store] = @store
     end    
         
+    it "should " do
+      do_get
+    end
+      
   end
   
   describe "with no store" do
@@ -111,7 +117,7 @@ describe Middleman::Store::File do
     
     it "should create a file with the MD5 of the name" do
       @store["test"] = 'test'
-      File.exist?("#{@store.path}/test").should == true
+      File.exist?("#{@store.path}/#{Digest::MD5.hexdigest('test')}").should == true
     end
     
   end

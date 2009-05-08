@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'digest/md5'
 
 module Middleman
   module Store
@@ -32,7 +33,7 @@ module Middleman
       private
       
         def path_from_key(key)
-          "#{@path}/#{key}"
+          "#{@path}/#{Digest::MD5.hexdigest(key)}"
         end
       
     end
