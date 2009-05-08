@@ -21,6 +21,21 @@ module Middleman
       @options[:logger]
     end
     
+    def log(message)
+      return unless @options[:verbose]
+      logger ? logger.info(message) : puts(message)
+    end
+    
+    def cache(key, value)
+      return unless store
+      store[key] = value
+    end
+    
+    def retrieve(key)
+      return unless store
+      store[key]
+    end
+    
   end  
   
 end

@@ -17,12 +17,13 @@ module Middleman
       end
       
       def [](key)
-        ::File.read(path_from_key(key)) if ::File.exist?(path_from_key(key))
+        return unless ::File.exist?(path_from_key(key))
+        Marshal.load(::File.read(path_from_key(key)))
       end
       
       def []=(key, val)
         ::File.open(path_from_key(key), 'w') do |f|
-          f.write(val)
+          f.write(Marshal.dump(val))
         end
       end
       

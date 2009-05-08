@@ -4,7 +4,7 @@ require 'pp'
 describe Middleman do
   
   def do_get
-    Twitter::Search.new('bacon')
+    Net::HTTP.get(URI.parse('http://www.google.com?q=test'))
   end
   
   describe "default options" do
@@ -23,17 +23,25 @@ describe Middleman do
     
   end
   
-  describe "with file store" do
+  describe "with store" do
     
     before :each do
-      @store = Middleman::Store::File.new('cache/mman')
+      @store = mock(:store, :null_object => true)
       @store.clear
       Middleman.options[:store] = @store
     end    
         
-    it "should " do
-      pp do_get
+    it "should store the result of the request in a file the first time" do
+      Middleman.store.should_receive(:[]).and_return(nil)
+      Middleman.store.should_receive(:[]=).once
+      do_get
     end
+      
+    it "should retrieve the results from the cache on subsequent requests" do
+      Middleman.store.should_receive(:[]).and_return(mock(:response, :null_object => true))
+      Middleman.store.should_not_receive(:[]=)
+      do_get
+    end      
       
   end
   
@@ -42,18 +50,8 @@ describe Middleman do
       Middleman.options[:store] = nil
     end
     
-    it "should do nothing" do
-    end
-    
-  end
-  
-  describe "with a Hash store" do
-    
-    before :all do
-      Middleman.options[:store] = {}
-    end
-    
-    it "should cache to the hash" do
+    it "should not die..." do
+      do_get
     end
     
   end
@@ -66,6 +64,9 @@ describe Middleman do
     end
     
     it "should log to the logger" do
+      Middleman.options[:logger].lines.should be_empty
+      do_get
+      Middleman.options[:logger].lines.should_not be_empty      
     end
     
   end
