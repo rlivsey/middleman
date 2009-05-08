@@ -6,6 +6,7 @@ By default, it caches to a file, so the cache is persistent across multiple runs
 
 ## Installation
 
+gem sources -a http://gems.github.com
 sudo gem install rlivsey-middleman
 
 ## Example usage
