@@ -1,13 +1,51 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-
+require 'pp'
 
 describe Middleman::Store::File do
+  
+  before :each do
+    @store = Middleman::Store::File.new('cache/mman')     
+    @store.clear   
+  end
   
   it "should create the cache dir if it doesn't exist" do
     FileUtils.rm_rf('cache')
     File.exist?('cache').should == false
-    @store = Middleman::Store::File.new('cache')    
+    Middleman::Store::File.new('cache/mman')    
     File.exist?('cache').should == true
+  end
+  
+  describe "#clear" do
+    
+    it "should delete all the files in the cache directory" do
+      @store["test"] = 'test'
+      Dir["#{@store.path}/*"].should_not be_empty
+      @store.clear
+      Dir["#{@store.path}/*"].should be_empty
+    end
+    
+  end
+  
+  describe "#[]" do
+    
+    it "should retrieve the contents of the file if it exists" do
+      @store["test"] = 'test'
+      @store["test"].should == 'test'
+    end
+    
+    it "should return nil if the file doesn't exist" do
+      @store["test"].should == nil
+    end
+    
+  end
+  
+  describe "#[]=" do
+    
+    it "should create a file with the MD5 of the name" do
+      @store["test"] = 'test'
+      File.exist?("#{@store.path}/test").should == true
+    end
+    
   end
   
 end
